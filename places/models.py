@@ -14,7 +14,7 @@ class Place(models.Model):
 
 
 class PlaceImage(models.Model):
-    image = models.ImageField(verbose_name='Изображение', unique=True)
+    image = models.ImageField(verbose_name='Изображение')
     position = models.PositiveIntegerField(
         default=0,
         verbose_name='Порядковый номер изображения'
