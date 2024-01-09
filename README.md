@@ -1,6 +1,6 @@
 # where-to-go
 
-Интерактивная карта Москвы с известными видами активного отдыха.
+[Интерактивная карта Москвы](https://gowheretogo.pythonanywhere.com/) с известными видами активного отдыха.
 
 
 ## Установка
@@ -27,7 +27,18 @@ pip install -r requirements.txt
 ## Запуск
 Создайте базу данных
 ```bash
+python manage.py makemigrations
 python manage.py migrate
+```
+
+Соберите статические файлы
+```bash
+python manage.py collectstatic
+```
+
+Создайте админа
+```bash
+python manage.py createsuperuser
 ```
 
 Запустите сервер
