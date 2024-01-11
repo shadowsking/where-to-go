@@ -2,8 +2,10 @@ from adminsortable2.admin import SortableAdminMixin, SortableTabularInline, Sort
 from django.contrib import admin
 from django.utils.html import format_html
 
-
 from .models import Place, PlaceImage
+
+MAX_HEIGHT = 200
+MAX_WIDTH = 687
 
 
 class PlaceImageInline(SortableTabularInline):
@@ -14,9 +16,10 @@ class PlaceImageInline(SortableTabularInline):
 
     def get_preview(self, place_image):
         return format_html(
-            '<img src="{}" style="max-height:{}px" />',
+            '<img src="{}" style="max-height:{}px;max-width:{}px" />',
             place_image.image.url,
-            200
+            MAX_HEIGHT,
+            MAX_WIDTH
         )
 
 
@@ -31,3 +34,4 @@ class PlaceAdmin(SortableAdminBase, admin.ModelAdmin):
 @admin.register(PlaceImage)
 class PlaceImage(SortableAdminMixin, admin.ModelAdmin):
     ordering = ['position']
+    raw_id_fields = ('place',)
