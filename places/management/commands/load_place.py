@@ -29,13 +29,15 @@ class Command(BaseCommand):
         for url in urls or []:
             response = requests.get(url)
             response.raise_for_status()
-            place = response.json()
-            created_place, created = Place.objects.get_or_create(
-                title=place["title"],
-                short_description=place["description_short"],
-                long_description=place["description_long"],
-                lat=place["coordinates"]["lat"],
-                lon=place["coordinates"]["lng"],
+            place_info = response.json()
+            place, created = Place.objects.get_or_create(
+                title=place_info["title"],
+                defaults=dict(
+                    short_description=place_info["description_short"],
+                    long_description=place_info["description_long"],
+                    lat=place_info["coordinates"]["lat"],
+                    lon=place_info["coordinates"]["lng"]
+                )
             )
-            for url in place.get("imgs"):
-                self._upload_file(created_place, url)
+            for url in place_info.get("imgs"):
+                self._upload_file(place, url)
