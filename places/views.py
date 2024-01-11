@@ -7,12 +7,9 @@ from .models import Place
 
 def show_start_page(request):
     places = Place.objects.all()
-    features_collection = {
-        "type": "FeatureCollection",
-        "features": []
-    }
+    features = []
     for place in places:
-        features_collection["features"].append(
+        features.append(
             {
                 "type": "Feature",
                 "geometry": {
@@ -30,14 +27,20 @@ def show_start_page(request):
         request,
         "index.html",
         context={
-            "places": features_collection
+            "places": {
+                "type": "FeatureCollection",
+                "features": features
+            }
         }
     )
 
 
 def show_place_details(request, place_id):
-    place = get_object_or_404(Place, id=place_id)
-    images = list(map(lambda i: i.image.url, place.images.all()))
+    place = get_object_or_404(
+        Place.objects.prefetch_related("images"),
+        id=place_id
+    )
+    images = [img.image.url for img in place.images.all()]
     return JsonResponse(
         {
             "title": place.title,

@@ -27,5 +27,8 @@ class PlaceImage(models.Model):
         on_delete=models.CASCADE
     )
 
+    class Meta:
+        ordering = ["position"]
+
     def __str__(self):
         return f"{self.position} {self.place.title}"
