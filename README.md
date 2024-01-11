@@ -27,7 +27,6 @@ pip install -r requirements.txt
 ## Запуск
 Создайте базу данных
 ```bash
-python manage.py makemigrations
 python manage.py migrate
 ```
 
